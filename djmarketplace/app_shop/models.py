@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import F
 
+
+
 # Create your models here.
 
 class Profile(models.Model):
@@ -22,8 +24,9 @@ class Profile(models.Model):
 
 
     def add_balance(self, amount):
-        Profile.object.select_for_update().only('balance').filter(pk=self.pk)\
-            .update(balance=F('balance') + amount)
+      Profile.objects.select_for_update().only('balance').filter(pk=self.pk)\
+          .update(balance=F('balance') + amount)
+
 
     def sub_balance(self, amount):
         Profile.object.select_for_update().only('balance').filter(pk=self.pk)\
