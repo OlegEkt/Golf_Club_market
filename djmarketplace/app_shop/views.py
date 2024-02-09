@@ -16,14 +16,19 @@ from django.urls import reverse
 from django.views import View
 from django.contrib import messages
 from .forms import BalanceRechargeForm
-
 from datetime import datetime
+from .models import GoodCart
 
 
 class UserUpdateView(UpdateView):
     model = User
     fields = ('username', 'first_name', 'last_name', 'email')
     template_name = 'app_shop/profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(UserUpdateView, self).get_context_data(**kwargs)
+        context['orders'] = Order.objects.prefetch_related('cart_product').filter(user=self.request.user).order_by('-date')
+        return context
 
     def get_success_url(self):
         return reverse('profile', kwargs={'pk': self.request.user.pk})
@@ -93,8 +98,26 @@ class CarttView(LoginRequiredMixin, View):
         return render(self.request, 'app_shop/cart.html', context={'cart':cart, 'total_price':total_price})
 
 
+@require_POST
+def pay(request, pk):
 
-
+    profile = get_object_or_404(Profile, user=request.user)
+    with transaction.atomic():
+        cart = GoodCart.objects.filter(
+            user=request.user, payment_flag='n'
+        )
+        amount = sum([i_item.good.price * i_item.good_num for i_item in cart])
+        if amount > profile.balance:
+            messages.add_message(request, messages.ERROR, 'Недостаточно средств! Пополните баланс.')
+            return redirect('balance_recharge')
+        order = Order.objects.create(user=request.user, amount=amount)
+        order.cart_product.add(*cart)
+        cart.update(payment_flag='p')
+        profile.sub_balance(amount)
+        profile.update_status(amount)
+        order.save()
+    messages.add_message(request,  messages.SUCCESS, 'Payment completed')
+    return redirect('main')
 
 @require_POST
 @login_required(login_url='login', redirect_field_name='main')
@@ -136,3 +159,8 @@ class BalanceRechargeView(View):
 
 
 
+@require_POST
+def delete_from_cart(request, item_id):
+    item = get_object_or_404(GoodCart, id=item_id)
+    item.delete()
+    return redirect('cart')

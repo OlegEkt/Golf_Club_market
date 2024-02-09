@@ -29,11 +29,11 @@ class Profile(models.Model):
 
 
     def sub_balance(self, amount):
-        Profile.object.select_for_update().only('balance').filter(pk=self.pk)\
+        Profile.objects.select_for_update().only('balance').filter(pk=self.pk)\
             .update(balance=F('balance') - amount)
 
     def update_status(self, amount):
-        profile = Profile.object.get(pk=self.pk)
+        profile = Profile.objects.get(pk=self.pk)
         profile.purchase_amount += amount
         if 5000 <= profile.purchase_amount <= 10000:
             profile.status_flag = 'adv'

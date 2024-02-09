@@ -1,6 +1,14 @@
 {% extends 'app_shop/base.html' %}
 
 {% block main %}
+{% if messages %}
+  {% for i_message in messages %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <strong>Пополните баланс</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  {% endfor %}
+{% endif %}
   <h2>Пополнение баланса</h2>
   <form method="post" action="">
     {% csrf_token %}

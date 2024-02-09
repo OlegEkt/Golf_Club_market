@@ -1,13 +1,19 @@
 {% extends 'app_shop/base.html' %}
 
 {% block main %}
+{% if messages %}
+  {% for i_message in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <strong>Payment completed</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  {% endfor %}
+{% endif %}
+
+
 <h4>Average price in our marketplace is {{avg_price|floatformat:2}} RUB</h4>
 <div class="d-flex justify-content-start mt-5" xmlns="http://www.w3.org/1999/html">
-    {% if messages %}
-        {% for message in messages %}
-           <span style="color:red">{{message}}</span>
-        {% endfor %}
-    {% endif %}
+
   {% for i_good in goods %}
         <div class="card me-3" style="width: 18rem;">
           <img src="{{i_good.image.url}}" class="card-img-top" alt="good image">
