@@ -120,7 +120,8 @@ class GoodCart(models.Model):
     good_num = models.PositiveIntegerField(default=1, verbose_name='кол-во')
     payment_choices = [
         ('p', 'товар оплачен'),
-        ('n','не оплачен')
+        ('n','не оплачен'),
+
     ]
 
     payment_flag = models.CharField(choices=payment_choices, max_length=1, default='n',
