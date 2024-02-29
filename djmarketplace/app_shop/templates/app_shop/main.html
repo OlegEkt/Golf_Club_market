@@ -1,38 +1,41 @@
 {% extends 'app_shop/base.html' %}
 
 {% block main %}
+
 {% if messages %}
-  {% for i_message in messages %}
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-      <strong>Payment completed</strong>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-  {% endfor %}
-{% endif %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
 
 
-<h4>Average price in our marketplace is {{avg_price|floatformat:2}} RUB</h4>
-<div class="d-flex justify-content-start mt-5" xmlns="http://www.w3.org/1999/html">
 
-  {% for i_good in goods %}
-        <div class="card me-3" style="width: 18rem;">
-          <img src="{{i_good.image.url}}" class="card-img-top" alt="good image">
-          <div class="card-body">
-              <h5 class="card-title">{{i_good.name}}</h5>
-            <h6>{{i_good.category}}</h6>
-            <h6>{{i_good.shop.name}}</h6>
-            <p class="card-text">{{i_good.description|truncatewords:10}}</p>
-              <p>{{i_good.price}} RUB</p>
-              <form method="post" action="{% url 'add_good' i_good.pk %}">
-                  {% csrf_token %}
-                  {{add_form.good_num}}
-                  <button type="submit" class="btn btn-primary">Add to cart</button>
-              </form>
+
+  <div class="row row-cols-1 row-cols-md-4 g-4 mt-5" xmlns="http://www.w3.org/1999/html">
+    {% for i_good in goods %}
+      <div class="col">
+        <div class="card h-80 d-flex flex-column">
+          <img src="{{i_good.image.url}}" class="card-img-top img-fluid" style="width: 60%; height: auto;" alt="good image">
+          <div class="card-body" style="min-height: 300px; overflow: auto;">
+            <h5 class="card-text" style="font-size: 100%;">{{i_good.name}}</h5>
+            <h6 class="card-text" style="font-size: 90%;">{{i_good.category}}</h6>
+            <h6 class="card-text" style="font-size: 80%;">{{i_good.shop.name}}</h6>
+            <p class="card-text" style="font-size: 80%;">{{i_good.description|truncatewords:60}}</p>
+            <p class="card-text" style="font-size: 80%;">{{i_good.price}} р.</p>
+            <form method="post" action="{% url 'add_good' i_good.pk %}" class="mt-auto">
+              {% csrf_token %}
+              {{add_form.good_num}}
+              <button type="submit" class="btn btn-secondary card-text" style="font-size: 80%; margin-top: 10%;">В корзину</button>
+            </form>
           </div>
         </div>
-
-  {% empty %}
-       <h2>No goods ....=</h2>
-  {% endfor %}
+      </div>
+    {% empty %}
+      <h2>Нет товаров ....=</h2>
+    {% endfor %}
+  </div>
 {% endblock %}
-</div>
+
+

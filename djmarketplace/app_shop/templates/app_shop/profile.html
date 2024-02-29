@@ -1,22 +1,24 @@
 {% extends 'app_shop/base.html' %}
 
 {% block main %}
-  <h1>Profile</h1>
+  <h1 class="fw-light fs-4 text-muted">Мой кабинет</h1>
   {% if object.profile.status_flag == 'new' %}
-    <span>Your current status is Trainee</span>
+    <span class="fw-light fs-5 text-muted">Ваш текущий статус: Новичок</span>
   {% elif object.profile.status_flag == 'adv' %}
-    <span>Your current status is Advanced</span>
+   <span class="fw-light fs-5 text-muted">Ваш текущий статус: Продвинутый</span>
+<!--    <span>Your current status is Advanced</span>-->
   {% else %}
-    <span>Your current status is Expert</span>
+<!--    <span>Your current status is Expert</span>-->
+    <span class="fw-light fs-5 text-muted">Ваш текущий статус: Эксперт</span>
   {% endif %}
 
 
   <form method="post">
     {% csrf_token %}
     {{form.as_p}}
-    <button class="btn btn-primary" type ="submit">Confirm</button>
+    <button class="btn btn-secondary" type ="submit">Подтвердить</button>
   </form>
-<h2>Order history</h2>
+<h2 class="fw-light fs-5 text-muted">Мои заказы</h2>
 <div class="accordion" id="accordionExample">
   {% for order in orders %}
     <div class="accordion-item">
@@ -35,15 +37,16 @@
             <h4>{{i_good.good.name}}</h4>
           </div>
           <div>
-            <h6>Price: {{i_good.price}}</h6>
+            <h6>{{i_good.price}}</h6>
           </div>
 
         {% endfor %}
 
-    <h5>Total cost: {{order.amount}} RUB</h5>
+    <h5 class="fw-light fs-5 text-muted">Итоговая стоимость: {{order.amount}} р.</h5>
       </div>
     </div>
   </div>
 {% endfor %}
+  
 </div>
 {% endblock %}

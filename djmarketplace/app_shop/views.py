@@ -19,6 +19,7 @@ from .forms import BalanceRechargeForm
 from datetime import datetime
 from .models import GoodCart
 
+# from huey.contrib.djhuey import task
 
 class UserUpdateView(UpdateView):
     model = User
@@ -97,8 +98,9 @@ class CarttView(LoginRequiredMixin, View):
             cart = None
         return render(self.request, 'app_shop/cart.html', context={'cart':cart, 'total_price':total_price})
 
-
+# @task
 @require_POST
+
 def pay(request, pk):
 
     profile = get_object_or_404(Profile, user=request.user)
@@ -116,7 +118,7 @@ def pay(request, pk):
         profile.sub_balance(amount)
         profile.update_status(amount)
         order.save()
-    messages.add_message(request,  messages.SUCCESS, 'Payment completed')
+    messages.add_message(request,  messages.SUCCESS, 'Спасибо за сделанный заказ! Наш оператор свяжется с вами для уточнения деталей. Сейчас вы можете продолжить покупки.')
     return redirect('main')
 
 @require_POST
@@ -133,7 +135,7 @@ def add_good_to_cart(request, *args, **kwargs):
         if created:
             # Если товара нет в корзине, создаем новую запись о товаре
             if good_num == 0 or good_num > good.amount:
-                messages.add_message(request, messages.INFO, 'Invalid good num')
+                messages.add_message(request, messages.INFO, 'Некорректное количество товара.')
                 return redirect('main')
             with transaction.atomic():
                 user_cart.good_num = good_num
@@ -142,7 +144,7 @@ def add_good_to_cart(request, *args, **kwargs):
         else:
             # Если товар уже есть в корзине, увеличиваем количество
             if good_num <= 0 or good_num > good.amount:
-                messages.add_message(request, messages.INFO, 'Invalid good num')
+                messages.add_message(request, messages.INFO, 'Некорректное количество товара.')
                 return redirect('main')
             with transaction.atomic():
                 user_cart.good_num += good_num
