@@ -4,8 +4,11 @@
 <form class="mt-5" method="post">
     {% csrf_token %}
     {{form.as_p}}
-    <button type="submit" class="btn btn-secondary">Войти</button>
+<!--    <button type="submit" class="btn btn-secondary" style="margin-top: 20px;">Войти</button>-->
+    <div style="margin-top: 20px; margin-bottom: 340px;">
+         <button type="submit" class="btn btn-secondary" style="margin-right: 10px;">Войти</button>
     <a style="color: black;" href="{% url 'register' %}">Зарегистрируйтесь</a>
+    </div>
 </form>
 
 {% endblock %}

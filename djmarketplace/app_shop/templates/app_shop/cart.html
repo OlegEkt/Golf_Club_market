@@ -24,10 +24,10 @@
     <h3 class="fw-light fs-4 text-muted">Итоговая стоимость {{total_price}} р.</h3>
 <form method="post" action="{% url 'pay' request.user.pk %}">
     {% csrf_token %}
-    <button type="submit" class="btn btn-secondary" style="font-size: 95%;">Подтвердить заказ</button>
+    <button type="submit" class="btn btn-secondary" style="font-size: 95%; margin-bottom: 120px;">Подтвердить заказ</button>
 </form>
   {% else %}
-   <h4 class="fw-light fs-5 text-muted" >Добавьте товар в корзину</h4>
+   <h4 class="fw-light fs-5 text-muted" style="margin-bottom: 500px;" >Добавьте товар в корзину</h4>
    {% endif %}
 
 {% endblock %}
