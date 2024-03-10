@@ -39,12 +39,10 @@ class CartAdmin(admin.ModelAdmin):
     list_display = ['user', 'good', 'good_num', 'payment_flag']
     list_filter = ['user', 'good', 'payment_flag']
 
-# class GoodsCartInLine(admin.TabularInline):
-#     model = GoodCart.good.through
 
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['user', 'date']
-    # inlines = [GoodsCartInLine]
+
 
 
 admin.site.register(Profile, ProfileAdmin)

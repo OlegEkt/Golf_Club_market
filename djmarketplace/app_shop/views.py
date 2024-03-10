@@ -19,7 +19,11 @@ from .forms import BalanceRechargeForm
 from datetime import datetime
 from .models import GoodCart
 
-# from huey.contrib.djhuey import task
+
+
+CACHE_TIME = 60 * 60 * 2
+
+
 
 class UserUpdateView(UpdateView):
     model = User
@@ -184,3 +188,12 @@ def delete_from_cart(request, item_id):
     good.add_amount(item.good_num)  # Возвращаем товар обратно в магазин
     item.delete()  # Удаляем товар из корзины пользователя
     return redirect('cart')
+
+
+
+
+
+
+
+
+

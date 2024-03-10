@@ -9,6 +9,7 @@ class UserForm(UserCreationForm):
         fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
 
 class CartAddForm(forms.ModelForm):
+    # good_num = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = GoodCart
@@ -33,3 +34,4 @@ class BalanceRechargeForm(forms.Form):
                 if card_year < current_year:
                     raise forms.ValidationError('Срок действия карты истек')
             return expiration_date
+
