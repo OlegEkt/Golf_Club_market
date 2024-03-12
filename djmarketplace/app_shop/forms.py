@@ -9,11 +9,15 @@ class UserForm(UserCreationForm):
         fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
 
 class CartAddForm(forms.ModelForm):
-    # good_num = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
+
 
     class Meta:
         model = GoodCart
         fields = ('good_num', )
+        widgets = {
+            'good_num': forms.NumberInput(attrs={'class': 'form-control', 'min': '1', 'step': '1'}),
+
+        }
 
 #new
 

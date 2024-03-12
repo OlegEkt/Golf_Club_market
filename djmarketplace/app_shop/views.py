@@ -113,9 +113,9 @@ def pay(request, pk):
             user=request.user, payment_flag='n'
         )
         amount = sum([i_item.good.price * i_item.good_num for i_item in cart])
-        if amount > profile.balance:
-            messages.add_message(request, messages.ERROR, 'Недостаточно средств! Пополните баланс.')
-            return redirect('balance_recharge')
+        # if amount > profile.balance:
+        #     messages.add_message(request, messages.ERROR, 'Недостаточно средств! Пополните баланс.')
+        #     return redirect('balance_recharge')
         order = Order.objects.create(user=request.user, amount=amount)
         order.cart_product.add(*cart)
         cart.update(payment_flag='p')
