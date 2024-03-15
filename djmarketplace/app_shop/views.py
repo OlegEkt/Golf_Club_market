@@ -68,6 +68,25 @@ class CustomLogoutView(LogoutView):
     next_page = 'main'
 
 
+# def register_view(request):
+#     user_form = UserForm()
+#
+#     if request.method == 'POST':
+#         user_form = UserForm(request.POST)
+#         if user_form.is_valid():
+#             user = user_form.save()
+#             telephone = user_form.cleaned_data['telephone']
+#             Profile.objects.create(user=user, telephone=telephone)
+#             username = user_form.cleaned_data['username']
+#             password = user_form.cleaned_data['password1']
+#             auth_user = authenticate(username=username, password=password)
+#             login(request, auth_user)
+#             return redirect('main')
+#         return render(request, 'app_shop/register.html', context={'user_form': user_form,
+#                                                                   'errors': user_form.errors_messages})
+#     else:
+#         return render(request, 'app_shop/register.html', context={'user_form': user_form})
+
 def register_view(request):
     user_form = UserForm()
 
@@ -75,14 +94,15 @@ def register_view(request):
         user_form = UserForm(request.POST)
         if user_form.is_valid():
             user = user_form.save()
-            Profile.objects.create(user=user)
+            telephone = user_form.cleaned_data['telephone']
+            Profile.objects.create(user=user, telephone=telephone)
             username = user_form.cleaned_data['username']
             password = user_form.cleaned_data['password1']
             auth_user = authenticate(username=username, password=password)
             login(request, auth_user)
             return redirect('main')
         return render(request, 'app_shop/register.html', context={'user_form': user_form,
-                                                                  'errors': user_form.errors_messages})
+                                                                  'errors': user_form.errors})
     else:
         return render(request, 'app_shop/register.html', context={'user_form': user_form})
 

@@ -12,6 +12,9 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='пользователь')
     balance = models.FloatField(verbose_name='баланс', default=0)
     purchase_amount = models.FloatField(verbose_name='сумма покупок', default=0)
+    telephone = models.CharField(max_length=16, default='+7(000)000-00-00')
+
+
 
     status_choices = [
         ('new', 'Новичок'),

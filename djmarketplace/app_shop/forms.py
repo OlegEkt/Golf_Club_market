@@ -4,9 +4,10 @@ from django import forms
 from datetime import datetime
 
 class UserForm(UserCreationForm):
+    telephone = forms.CharField(max_length=16)
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
+        fields = ('username', 'first_name', 'last_name', 'email', 'telephone', 'password1', 'password2')
 
 class CartAddForm(forms.ModelForm):
 

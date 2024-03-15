@@ -5,7 +5,7 @@ from .models import *
 
 class ProfileAdmin(admin.ModelAdmin):
     model = Profile
-    list_display = ['user', 'status_flag']
+    list_display = ['user', 'status_flag', 'telephone']
     list_filter = ['status_flag']
 
 class CategoryAdmin(admin.ModelAdmin):
